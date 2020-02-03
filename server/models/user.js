@@ -1,4 +1,4 @@
-const mogoose = require('mongoose')
+const mongoose = require('mongoose')
 const crypto = require('crypto')
 
 // user schema
@@ -54,7 +54,7 @@ userSchema.methods = {
         this.encryptPassword(plainText) === this.hashed_password
     },
 
-    encryptPassword: function() {
+    encryptPassword: function(password) {
         if(!password) {
             return ''
         }
@@ -73,4 +73,4 @@ userSchema.methods = {
     }
 }
 
-module.exports = mogoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema)

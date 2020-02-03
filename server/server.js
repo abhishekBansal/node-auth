@@ -6,6 +6,14 @@ const bodyParser = require('body-parser')
 require('dotenv').config()
 
 const app = express()
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useFindAndModify: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+})
+.then(() => console.log('DB Connected'))
+.catch(err =>  console.log('DB Conenction Error', err))
 
 // import routes
 const authRoutes = require('./routes/auth')
@@ -28,5 +36,5 @@ app.use('/api', authRoutes)
 
 const port = process.env.PORT || 8000
 app.listen(port, () => {
-    console.log(`API is running on port ${port}`)
+    console.log(`API is running on port ${port}- ${process.env.NODE_ENV}`)
 })
