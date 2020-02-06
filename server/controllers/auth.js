@@ -79,6 +79,34 @@ exports.accountActivation = (req, res) => {
     }
 }
 
+exports.signin = (req, res) => {
+    const {email, password} = req.body
+    User.findOne({ email }).exec((err, user) => {
+        if(err || !user) {
+            return res.status(404).json({
+                error: 'User not found'
+            })
+        }
+
+        // if user exist
+        console.log(password)
+        if(!user.authenticate(password)) {
+            return res.status(400).json({
+                error: "Email and password do not match"
+            })
+        }
+
+        // generater a token and send to client
+        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'})
+        const {_id, name, email, role} = user
+
+        return res.json({
+            token, user: {
+                _id, name, email, role
+            }
+        })
+    })
+}
 // Signup without email confirmation
 // exports.signup = (req, res) => {
 //     const { name, email, password } = req.body
