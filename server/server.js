@@ -17,6 +17,7 @@ mongoose.connect(process.env.DATABASE, {
 
 // import routes
 const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/user')
 
 // app middlewares
 app.use(morgan('dev'))
@@ -33,6 +34,7 @@ app.use(cors()) // allows all origins
 // middlewares
 // anything comes to /api will be forwarded to authRoutes
 app.use('/api', authRoutes)
+app.use('/api', userRoutes)
 
 const port = process.env.PORT || 8000
 app.listen(port, () => {
